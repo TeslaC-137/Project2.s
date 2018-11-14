@@ -23,9 +23,3 @@
 		#Exiting the program
 		li $v0, 10
 		syscall
-
-	empty:
-		li $v0, 4
-		la $a0 EMPTY
-		syscall
-		j exit
