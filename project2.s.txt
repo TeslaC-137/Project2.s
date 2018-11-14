@@ -12,3 +12,8 @@
 		li $v0, 8
 		la $a0, theString
 		li $a1, 2500
+		syscall
+
+		#Exiting the program
+		li $v0, 10
+		syscall
