@@ -5,3 +5,10 @@
 	INVALID_CHAR: .asciiz "Invalid base-27 number."
 	EMPTY: .asciiz "Input is empty."
 	TOO_LONG: .asciiz "Invalid base-N number."
+
+.text
+	main:
+		#Taking user input as string
+		li $v0, 8
+		la $a0, theString
+		li $a1, 2500
