@@ -14,6 +14,7 @@
 		li $a1, 2500
 		syscall
 
+		# Checking if string is empty
 		la $t0, theString
 		lb $t1, 0($t0)
 		li $t2, 10
@@ -23,3 +24,9 @@
 		#Exiting the program
 		li $v0, 10
 		syscall
+	
+	empty:
+	 		li $v0, 4
+	 		la $a0 EMPTY
+	 		syscall
+	 		j exit
