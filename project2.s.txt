@@ -1,0 +1,7 @@
+.data
+	theString: .space 2500
+
+	#Error Messages
+	INVALID_CHAR: .asciiz "Invalid base-27 number."
+	EMPTY: .asciiz "Input is empty."
+	TOO_LONG: .asciiz "Invalid base-N number."
