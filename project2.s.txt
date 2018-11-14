@@ -23,13 +23,12 @@
 	li $t1, 0   # Counter
 	length:
 		lb $t2, 0($t0)
-		beq $t2, 10, valid
+		beq $t2, 10, exit
 		beq $t1, 4, tooLong
 		addi $t0, $t0, 1
+		beq $t2, 32, length    # If current character is space move to beginning of the loop without incrementing the counter
 		addi $t1, $t1, 1
 		j length
-
-
 
 	exit:
 		#Exiting the program
@@ -37,10 +36,10 @@
 		syscall
 	
 	empty:
-	 		li $v0, 4
-	 		la $a0 EMPTY
-	 		syscall
-	 		j exit
+ 		li $v0, 4
+ 		la $a0 EMPTY
+ 		syscall
+ 		j exit
 
 	 tooLong:
 	 	li $v0, 4
