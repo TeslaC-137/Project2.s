@@ -21,6 +21,7 @@
 
 		#Initializing registers to store value of decimal
 		li $s0, 0
+		li $s7, 0				# Flag to help check space in the middle of string($s0 is 1 after first non space character is encountered, otherwise 0)
 
 	#Checking if the length of string is less than or equal to 4
 	li $t1, 0   # Counter
@@ -35,13 +36,16 @@
 
 	convert:
 		addi $t2, $t2, -1     # Move one character backward in the string
-		li $s7, 0				# Flag to help check space in the middle of string($s0 is 1 after first non space character is encountered, otherwise 0)
 		beq $t2, 32, checkSpace
 
 
 	# Ignore the spaces at the end of theString, if space found in the middle print error message
 	checkSpace:
-		
+		addi $t2, $t2, -1
+		beq $t2, 32, checkSpace
+		beq $s7, 1, exit
+		li $s7, 1
+		add $t2, $t2, 1
 
 	exit:
 		#Exiting the program
