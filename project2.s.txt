@@ -41,3 +41,9 @@
 	 		la $a0 EMPTY
 	 		syscall
 	 		j exit
+
+	 tooLong:
+	 	li $v0, 4
+	 	la $a0, TOO_LONG
+	 	syscall
+	 	j exit
