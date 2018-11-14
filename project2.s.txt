@@ -4,7 +4,7 @@
 	#Error Messages
 	INVALID_CHAR: .asciiz "Invalid base-27 number."
 	EMPTY: .asciiz "Input is empty."
-	TOO_LONG: .asciiz "Invalid base-N number."
+	TOO_LONG: .asciiz "Input is too long."
 
 .text
 	main:
@@ -17,8 +17,16 @@
 		# Checking if string is empty
 		la $t0, theString
 		lb $t1, 0($t0)
-		li $t2, 10
-		beq $t1, $t2, empty
+		beq $t1, 10, empty
+
+	#Checking if the length of string is less than or equal to 4
+	li $t1, 0   # Counter
+	length:
+		lb $t2, 0($t0)
+		beq $t2, 10, valid
+		beq $t1, 4, tooLong
+
+
 
 	exit:
 		#Exiting the program
@@ -29,4 +37,4 @@
 	 		li $v0, 4
 	 		la $a0 EMPTY
 	 		syscall
-	 		j exit
+	 		j main
