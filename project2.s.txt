@@ -74,30 +74,23 @@
 
 	convertNum:
 		addi $t5, $t2, -48				# Get the value of number character
+		j compute					
+
+	convertUpper:
+		addi $t5, $t2, -55
+		j compute
+
+	convertLower:
+		addi $t5, $t2, -87
+		j compute
+
+	compute:
 		mult $t5, $t4 					# Multilpy the value with power
 		mflo $t5						# Move result of multiplication to $t5
 		add $s0, $s0, $t5 				# Increment the decimal value by result of multiplication
 		mult $t4, $s1					# Multiply the power by 27
 		mflo $t4
 		j convert 						# Jump back to convert
-
-	convertUpper:
-		addi $t5, $t2, -55
-		mult $t5, $t4
-		mflo $t5
-		add $s0, $s0, $t5
-		mult $t4, $s1
-		mflo $t4
-		j convert
-
-	convertLower:
-		addi $t5, $t2, -87
-		mult $t5, $t4
-		mflo $t5
-		add $s0, $s0, $t5
-		mult $t4, $s1
-		mflo $t4
-		j convert
 	
 	printDecimal:
 		li $v0, 1
