@@ -14,6 +14,7 @@
 		li $a1, 2500
 		syscall
 
+		la $t0, theString
 		li $s0, 0				#Initializing registers to store value of decimal
 		li $s7, 0				# Flag to help check space in the middle of string($s0 is 1 after first non space character is encountered, otherwise 0)
 		li $t4, 1				# Initializing power to be multiplied
@@ -64,12 +65,13 @@
 		blt $t2, 58, convertNum  		# If char is between 48 and 57, char is a number
 
 	convertNum:
-		add $t5, $t2, -48				# Get the value of number character
+		addi $t5, $t2, -48				# Get the value of number character
 		mult $t5, $t4 					# Multilpy the value with power
 		mflo $t5						# Move result of multiplication to $t5
 		add $s0, $s0, $t5 				# Increment the decimal value by result of multiplication
 		mult $t4, $s1					# Multiply the power by 27
-		j Convert 						# Jump back to convert
+		mflo $t4
+		j convert 						# Jump back to convert
 
 	
 	printDecimal:
