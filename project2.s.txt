@@ -29,7 +29,7 @@
 		beq $t2, 32, checkSpaceLen    # If current character is space move to beginning of the loop without incrementing the counter
 		li $s7, 1		     # Whenever nonspace character is encountered set $s7 to 1
 		addi $t1, $t1, 1
-		beq $t1, 5, tooLong
+		bgt $t1, 4, tooLong
 		j length
 
 	convert:
@@ -38,7 +38,7 @@
 		lb $t2, 0($t0)
 		beq $t2, 32, checkSpace   # If character is space go to checkSpace to check whether the space is at middle of string or not
 		li $s7, 1			# Whenever nonspace character is encountered set $s7 to 1
-		addi $t1, $t1, -1
+		addi $t1, $t1, -1		# Decrement $t1 by 1
 		j convertChar
 
 	exit:
@@ -50,6 +50,7 @@
 	checkSpace:
 		addi $t0, $t0, -1         # Go to one character backward in the string
 		lb $t2, 0($t0)
+		addi $t1, $t1, -1
 		beq $t2, 32, checkSpace   # If character ahead is also space, go to checkSpace
 		beq $s7, 1, invalidChar          # If character is not space, check whether a non space character is encountered already, if yes($s7=1) add one to the length($t1)
 		add $t0, $t0, 1				# Before going back to convert increment character in the string, because character is decremented at the beginning of 								convert
@@ -62,6 +63,7 @@
 
 	checkEmpty:
 		beq $t1, 0, empty
+		li $s7, 0 		# Reset $s7 to 0 before converting
 		j convert
 
 	# Convert valid characters to decimal and increments the result, return error if invalid character is found
@@ -101,22 +103,22 @@
 		li $v0, 1
 		add $a0, $s0, $zero
 		syscall
-		j exit
+		j main
 
 	empty:
  		li $v0, 4
  		la $a0 EMPTY
  		syscall
- 		j exit
+ 		j main
 
 	 tooLong:
 	 	li $v0, 4
 	 	la $a0, TOO_LONG
 	 	syscall
-	 	j exit
+	 	j main
 
 	 invalidChar:
 	 	li $v0, 4
 	 	la $a0, INVALID_CHAR
 	 	syscall
-	 	j exit
+	 	j main
