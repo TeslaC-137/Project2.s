@@ -14,14 +14,9 @@
 		li $a1, 2500
 		syscall
 
-		# Checking if string is empty
-		la $t0, theString
-		#lb $t1, 0($t0)
-		#beq $t1, 10, empty
-
-		#Initializing registers to store value of decimal
-		li $s0, 0
+		li $s0, 0				#Initializing registers to store value of decimal
 		li $s7, 0				# Flag to help check space in the middle of string($s0 is 1 after first non space character is encountered, otherwise 0)
+		li $t4, 1				# Initializing power to be multiplied
 
 	#Checking if the length of string is less than or equal to 4
 	li $t1, 0   # Counter, at the end $t1 will have number of characters(non space) in the string
@@ -41,7 +36,7 @@
 		beq $t2, 32, checkSpace   # If character is space go to checkSpace to check whether the space is at middle of string or not
 		li $s7, 1			# Whenever nonspace character is encountered set $s7 to 1
 		addi $t1, $t1, -1
-		j convert
+		j convertChar
 
 	exit:
 		#Exiting the program
@@ -61,6 +56,10 @@
 	checkEmpty:
 		beq $t1, 0, empty
 		j convert
+
+	# Convert valid characters to decimal and increments the result, return error if invalid character is found
+	convertChar:
+		blt $t2, 48, invalidChar
 	
 	printDecimal:
 		li $v0, 1
