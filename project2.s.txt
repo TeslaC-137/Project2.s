@@ -60,15 +60,16 @@
 
 	# Convert valid characters to decimal and increments the result, return error if invalid character is found
 	convertChar:
-		blt $t2, 48, invalidChar
-		blt $t2, 58, convertNum
+		blt $t2, 48, invalidChar      	# If char is less than 48, invalid char
+		blt $t2, 58, convertNum  		# If char is between 48 and 57, char is a number
 
 	convertNum:
-		add $t5, $t2, -48
-		mult $t5, $t4
-		mflo $t5
-		add $s0, $s0, $t5
-		mult $t4, $s1
+		add $t5, $t2, -48				# Get the value of number character
+		mult $t5, $t4 					# Multilpy the value with power
+		mflo $t5						# Move result of multiplication to $t5
+		add $s0, $s0, $t5 				# Increment the decimal value by result of multiplication
+		mult $t4, $s1					# Multiply the power by 27
+		j Convert 						# Jump back to convert
 
 	
 	printDecimal:
