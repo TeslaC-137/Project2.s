@@ -16,8 +16,8 @@
 
 		# Checking if string is empty
 		la $t0, theString
-		lb $t1, 0($t0)
-		beq $t1, 10, empty
+		#lb $t1, 0($t0)
+		#beq $t1, 10, empty
 
 		#Initializing registers to store value of decimal
 		li $s0, 0
@@ -27,7 +27,7 @@
 	li $t1, 0   # Counter, at the end $t1 will have number of characters(non space) in the string
 	length:
 		lb $t2, 0($t0)
-		beq $t2, 10, convert     # If \n is encountered move to converting part
+		beq $t2, 10, checkEmpty     # If \n is encountered move to converting part
 		addi $t0, $t0, 1
 		beq $t2, 32, length    # If current character is space move to beginning of the loop without incrementing the counter
 		addi $t1, $t1, 1
@@ -36,8 +36,10 @@
 
 	convert:
 		beq $t1, 0, printDecimal
-		addi $t2, $t2, -1     # Move one character backward in the string
+		addi $t0, $t0, -1     # Move one character backward in the string
+		lb $t2, 0($t0)
 		beq $t2, 32, checkSpace   # If character is space go to checkSpace to check whether the space is at middle of string or not
+		li $s7, 1			# Whenever nonspace character is encountered set $s7 to 1
 		addi $t1, $t1, -1
 		j convert
 
@@ -48,12 +50,17 @@
 	
 	# Ignore the spaces at the end of theString, if space found in the middle print error message
 	checkSpace:
-		addi $t2, $t2, -1         # Go to one character back in the string
+		addi $t0, $t0, -1         # Go to one character back in the string
+		lb $t2, 0($t0)
 		beq $t2, 32, checkSpace   # If character ahead is also space, go to checkSpace
 		beq $s7, 1, invalidChar          # If character is not space, check whether a non space character is encountered already, if yes($s7=1) print 										invalid message
-		li $s7, 1					# If non space character encountered is the first non space character, set $s7 to 1
-		add $t2, $t2, 1				# Before going back to convert increment character in the string, because character is decremented at the beginning of 								convert
+		#li $s7, 1					# If non space character encountered is the first non space character, set $s7 to 1
+		add $t0, $t0, 1				# Before going back to convert increment character in the string, because character is decremented at the beginning of 								convert
 		j convert 					# jump to convert
+
+	checkEmpty:
+		beq $t1, 0, empty
+		j convert
 	
 	printDecimal:
 		li $v0, 1
