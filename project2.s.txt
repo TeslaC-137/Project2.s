@@ -55,6 +55,12 @@
 		add $t2, $t2, 1				# Before going back to convert increment character in the string, because character is decremented at the beginning of 								convert
 		j convert 					# jump to convert
 	
+	printDecimal:
+		li $v0, 1
+		add $a0, $s0, $zero
+		syscall
+		j exit
+
 	empty:
  		li $v0, 4
  		la $a0 EMPTY
