@@ -28,10 +28,10 @@
 	length:
 		lb $t2, 0($t0)
 		beq $t2, 10, convert     # If \n is encountered move to converting part
-		beq $t1, 4, tooLong
 		addi $t0, $t0, 1
 		beq $t2, 32, length    # If current character is space move to beginning of the loop without incrementing the counter
 		addi $t1, $t1, 1
+		beq $t1, 5, tooLong
 		j length
 
 	convert:
@@ -39,7 +39,7 @@
 		addi $t2, $t2, -1     # Move one character backward in the string
 		beq $t2, 32, checkSpace   # If character is space go to checkSpace to check whether the space is at middle of string or not
 		addi $t1, $t1, -1
-		j convertChar
+		j convert
 
 	exit:
 		#Exiting the program
@@ -59,22 +59,22 @@
 		li $v0, 1
 		add $a0, $s0, $zero
 		syscall
-		j exit
+		j main
 
 	empty:
  		li $v0, 4
  		la $a0 EMPTY
  		syscall
- 		j exit
+ 		j main
 
 	 tooLong:
 	 	li $v0, 4
 	 	la $a0, TOO_LONG
 	 	syscall
-	 	j exit
+	 	j main
 
 	 invalidChar:
 	 	li $v0, 4
 	 	la $a0, INVALID_CHAR
 	 	syscall
-	 	j exit
+	 	j main
