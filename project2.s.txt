@@ -64,6 +64,9 @@
 		blt $t2, 48, invalidChar      	# If char is less than 48, invalid char
 		blt $t2, 58, convertNum  		# If char is between 48 and 57, char is a number
 
+		blt $t2, 65, invalidChar
+		blt $t2, 82, convertUpper
+
 	convertNum:
 		addi $t5, $t2, -48				# Get the value of number character
 		mult $t5, $t4 					# Multilpy the value with power
@@ -73,6 +76,9 @@
 		mflo $t4
 		j convert 						# Jump back to convert
 
+	convertUpper:
+		addi $t5, $t2, -55
+		mult $t5, $t4
 	
 	printDecimal:
 		li $v0, 1
