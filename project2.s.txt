@@ -17,6 +17,7 @@
 		li $s0, 0				#Initializing registers to store value of decimal
 		li $s7, 0				# Flag to help check space in the middle of string($s0 is 1 after first non space character is encountered, otherwise 0)
 		li $t4, 1				# Initializing power to be multiplied
+		li $s1, 27				# Base
 
 	#Checking if the length of string is less than or equal to 4
 	li $t1, 0   # Counter, at the end $t1 will have number of characters(non space) in the string
@@ -65,6 +66,10 @@
 	convertNum:
 		add $t5, $t2, -48
 		mult $t5, $t4
+		mflo $t5
+		add $s0, $s0, $t5
+		mult $t4, $s1
+
 	
 	printDecimal:
 		li $v0, 1
