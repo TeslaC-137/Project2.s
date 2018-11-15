@@ -60,6 +60,11 @@
 	# Convert valid characters to decimal and increments the result, return error if invalid character is found
 	convertChar:
 		blt $t2, 48, invalidChar
+		blt $t2, 58, convertNum
+
+	convertNum:
+		add $t5, $t2, -48
+		mult $t5, $t4
 	
 	printDecimal:
 		li $v0, 1
