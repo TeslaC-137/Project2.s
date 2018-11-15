@@ -103,22 +103,22 @@
 		li $v0, 1
 		add $a0, $s0, $zero
 		syscall
-		j main
+		j exit
 
 	empty:
  		li $v0, 4
  		la $a0 EMPTY
  		syscall
- 		j main
+ 		j exit
 
 	 tooLong:
 	 	li $v0, 4
 	 	la $a0, TOO_LONG
 	 	syscall
-	 	j main
+	 	j exit
 
 	 invalidChar:
 	 	li $v0, 4
 	 	la $a0, INVALID_CHAR
 	 	syscall
-	 	j main
+	 	j exit
