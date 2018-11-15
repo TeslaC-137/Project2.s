@@ -70,6 +70,8 @@
 		blt $t2, 97, invalidChar
 		blt $t2, 114, convertLower
 
+		j invalidChar
+
 	convertNum:
 		addi $t5, $t2, -48				# Get the value of number character
 		mult $t5, $t4 					# Multilpy the value with power
@@ -91,6 +93,11 @@
 	convertLower:
 		addi $t5, $t2, -87
 		mult $t5, $t4
+		mflo $t5
+		add $s0, $s0, $t5
+		mult $t4, $s1
+		mflo $t4
+		j convert
 	
 	printDecimal:
 		li $v0, 1
